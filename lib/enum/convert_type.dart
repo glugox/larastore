@@ -1,0 +1,4 @@
+enum ConvertType {
+  fromJson,
+  toJson
+}
