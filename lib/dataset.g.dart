@@ -6,8 +6,7 @@ part of 'dataset.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Dataset<T> _$DatasetFromJson<T>(Map<String, dynamic> json) =>
-    Dataset<T>(
+Dataset<T> _$DatasetFromJson<T>(Map<String, dynamic> json) => Dataset<T>(
       items: json['items'] == null
           ? null
           : DatasetItems<T>.fromJson(json['items'] as Map<String, dynamic>),
