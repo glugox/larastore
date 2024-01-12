@@ -1,0 +1,23 @@
+targets:
+  $default:
+    builders:
+      resourceBuilder:
+        enabled: true
+        generate_for:
+          - lib/**/**.dart
+      source_gen|combining_builder:
+        options:
+          ignore_for_file:
+            - "type=lint"
+
+# builders:
+#   resourceBuilder:
+#     import: "package:larastore/generators.dart"
+#     builder_factories: ["resourceBuilder"]
+#     # The `partId` argument to `SharedPartBuilder` is "some_cool_builder"
+#     build_extensions: {".dart": [".resource.g.part"]}
+#     auto_apply: dependents
+#     build_to: source
+#     # To copy the `.g.part` content into `.g.dart` in the source tree
+#     applies_builders: ["source_gen:combining_builder"]
+#     runs_before: ["json_serializable|json_serializable"]

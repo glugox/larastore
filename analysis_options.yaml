@@ -2,3 +2,9 @@ include: package:flutter_lints/flutter.yaml
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
+
+
+# This was added as suggested from 'freezed' package: https://pub.dev/packages/freezed#install
+analyzer:
+  errors:
+    invalid_annotation_target: ignore

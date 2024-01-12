@@ -2,10 +2,14 @@ library larastore;
 
 
 import 'package:larastore/api_options.dart';
+import 'package:larastore/config/routes.dart';
 import 'package:larastore/dataset.dart';
 import 'package:larastore/http.dart';
 import 'package:larastore/larastore_exception.dart';
 import 'package:larastore/larastore_options.dart';
+import 'package:larastore/resource.dart';
+
+export 'annotations.dart';
 
 class Larastore {
   /// Larastore optionsfor this instance."
@@ -88,4 +92,50 @@ class Larastore {
       throw LarastoreException(message: 'Failed to get $resource: ${response..statusMessage}');
     }
   }
+
+  // Returns a user resource object from API, 
+  // or resource with error message if sign in fails.
+  Future<Resource> signUp(Map<String, dynamic> data) async {
+    
+    final response = await Http.instance.dio.post('${options.baseUrl}/${Routes.signIn}', data: data);
+    if (response.statusCode == 200) {
+      return Resource.fromJson(response.data);
+    } else {
+      // Handle API errors
+      throw LarastoreException(message: 'Failed to sign up: ${response..statusMessage}');
+    }
+  }
+
+  // Returns a user resource object from API, 
+  // or resource with error message if sign in fails.
+  Future<Resource> signIn(String username, String password) async {
+    
+    final response = await Http.instance.dio.post('${options.baseUrl}/${Routes.signIn}', data: {
+      'username': username,
+      'password': password
+    });
+
+    return Resource.fromJson(response.data);
+
+    /*if (response.statusCode == 200) {
+      return Resource.fromJson(response.data);
+    } else {
+      // Handle API errors
+      return Resource.fail(response.statusMessage ?? 'Failed to sign in');
+      //throw LarastoreException(message: 'Failed to sign in: ${response.statusMessage}');
+    }*/
+  }
+
+  // Returns a dataset object from API
+  Future<Resource> me() async {
+    
+    final response = await Http.instance.dio.get('${options.baseUrl}/${Routes.me}');
+    if (response.statusCode == 200) {
+      return Resource.fromJson(response.data);
+    } else {
+      // Handle API errors
+      throw LarastoreException(message: 'Failed to get me: ${response..statusMessage}');
+    }
+  }
+
 }

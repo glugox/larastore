@@ -6,6 +6,7 @@ import 'package:larastore/dataset/meta.dart';
 import 'package:larastore/enum/convert_type.dart';
 import 'package:larastore/resource_converter.dart';
 import 'package:larastore/support/type_support.dart';
+import 'package:larastore/mixins/entity_mixin.dart';
 
 part 'dataset.g.dart';
 
@@ -46,6 +47,29 @@ class Dataset<T> extends Equatable {
 
   @override
   List<Object?> get props => [items, meta, filters, error];
+
+  static Dataset<T> toEntityDataset<T>(Dataset from) {
+
+    return Dataset<T>(
+        error: from.error,
+        filters: from.filters,
+        meta: from.meta,
+        items: DatasetItems<T>(
+            currentPage: from.items!.currentPage,
+            data: from.items!.data.map((e) => (e as EntityMixin).toEntity() as T).toList(),
+            firstPageUrl: from.items!.firstPageUrl,
+            from: from.items!.from,
+            lastPage: from.items!.lastPage,
+            lastPageUrl: from.items!.lastPageUrl,
+            links: from.items!.links,
+            nextPageUrl: from.items!.nextPageUrl,
+            path: from.items!.path,
+            perPage: from.items!.perPage,
+            prevPageUrl: from.items!.prevPageUrl,
+            to: from.items!.to,
+            total: from.items!.total
+          ));
+  }
 }
 
 class GenericResourceConverter<T> implements JsonConverter<T, Object?> {
